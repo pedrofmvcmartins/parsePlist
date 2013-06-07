@@ -1,0 +1,109 @@
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.tree.DefaultElement;
+
+
+public class MainParser {
+	
+	private static String readPlistFromAssets() {
+		  StringBuffer sb = new StringBuffer();
+		  BufferedReader br=null;
+		  try {
+		    br = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Users\\Pedro\\Downloads\\Stands.plist"),"UTF-8")); 
+		   String temp;
+		   while ((temp = br.readLine()) != null)
+		    sb.append(temp);
+		  } catch (IOException e) {
+		   e.printStackTrace();
+		  } finally {
+		   try {
+		    br.close(); // stop reading
+		   } catch (IOException ex) {
+		    ex.printStackTrace();
+		   }
+		  }
+		  return sb.toString();
+		 }
+	
+	public static void main(String [ ] args)
+	{
+		
+		String xmlString = readPlistFromAssets();
+	    try {
+			Document document = DocumentHelper.parseText(xmlString);
+			List list = document.getRootElement().selectNodes( "//array/dict" );
+			System.out.println(list.size());			
+			
+			Document outDocument = DocumentHelper.createDocument();
+		    Element root = outDocument.addElement( "root" );
+			
+		    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+		    	Element elem = (Element) iter.next();
+				System.out.println(elem.getName());
+				
+				int i = 0;
+				
+				String namekey = elem.node(i).getText();i++;
+				String nameValue = elem.node(i).getText();i++;			
+				Element e = DocumentHelper.createElement(namekey).addCDATA(nameValue);
+				
+				String addresskey = elem.node(i).getText();i++;	
+				String addressValue = elem.node(i).getText();i++;					
+				Element address = DocumentHelper.createElement(addresskey).addCDATA(addressValue);
+				
+				String postal_codekey = elem.node(i).getText();i++;	
+				String postal_codeValue = elem.node(i).getText();i++;					
+				Element postal_code = DocumentHelper.createElement(postal_codekey).addCDATA(postal_codeValue);
+				
+				String citykey = elem.node(i).getText();i++;	
+				String cityValue = elem.node(i).getText();i++;					
+				Element city = DocumentHelper.createElement(citykey).addCDATA(cityValue);
+				
+				String phone_saleskey = elem.node(i).getText();i++;	
+				String phone_salesValue = elem.node(i).getText();i++;					
+				Element phone_sales = DocumentHelper.createElement(phone_saleskey).addCDATA(phone_salesValue);
+				
+				String phone_serviceskey = elem.node(i).getText();i++;	
+				String phone_servicesValue = elem.node(i).getText();i++;					
+				Element phone_services = DocumentHelper.createElement(phone_serviceskey).addCDATA(phone_servicesValue);
+				
+				String fax_saleskey = elem.node(i).getText();i++;	
+				String fax_salesValue = elem.node(i).getText();i++;					
+				Element fax_sales = DocumentHelper.createElement(fax_saleskey).addCDATA(fax_salesValue);
+				
+				String fax_serviceskey = elem.node(i).getText();i++;	
+				String fax_servicesValue = elem.node(i).getText();i++;					
+				Element fax_services = DocumentHelper.createElement(fax_serviceskey).addCDATA(fax_servicesValue);
+				
+				String email_saleskey = elem.node(i).getText();i++;	
+				String email_salesValue = elem.node(i).getText();i++;					
+				Element email_sales = DocumentHelper.createElement(email_saleskey).addCDATA(email_salesValue);
+				
+				String email_serviceskey = elem.node(i).getText();i++;	
+				String email_servicesValue = elem.node(i).getText();i++;					
+				Element email_services = DocumentHelper.createElement(email_serviceskey).addCDATA(email_servicesValue);
+				
+				String latValue = elem.selectSingleNode( ".//dict/string[1]" ).getText();
+				String lngValue = elem.selectSingleNode( ".//dict/string[2]" ).getText();
+				Element lat = DocumentHelper.createElement("latitude").addCDATA(latValue);
+				Element lng = DocumentHelper.createElement("longitude").addCDATA(lngValue);
+	        }
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}
