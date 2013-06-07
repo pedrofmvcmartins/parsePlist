@@ -120,7 +120,7 @@ public class MainParser {
 				
 				stands.add(stand);
 	        }
-		    OutputFormat format = new OutputFormat("\t", true, "ISO 8859-1");
+		    OutputFormat format = new OutputFormat("\t", true, "UTF-8");
 		    XMLWriter writer = new XMLWriter(
 		            new FileWriter( "C:\\code\\dealers.xml" ),
 		            format

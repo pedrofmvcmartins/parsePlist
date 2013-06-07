@@ -51,7 +51,7 @@ public class MainParser {
 			System.out.println(list.size());			
 			
 			Document outDocument = DocumentHelper.createDocument();
-		    Element stands = outDocument.addElement("dealers");
+		    Element stands = outDocument.addElement("stands");
 			
 		    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
 		    	Element elem = (Element) iter.next();
@@ -104,7 +104,7 @@ public class MainParser {
 				Node lat = DocumentHelper.createElement("latitude").addText(latValue);
 				Node lng = DocumentHelper.createElement("longitude").addText(lngValue);
 				
-				Element stand = DocumentHelper.createElement("dealer");
+				Element stand = DocumentHelper.createElement("stand");
 				stand.add(name);
 				stand.add(address);
 				stand.add(postal_code);
@@ -120,9 +120,9 @@ public class MainParser {
 				
 				stands.add(stand);
 	        }
-		    OutputFormat format = new OutputFormat("\t", true, "ISO 8859-1");
+		    OutputFormat format = new OutputFormat("\t", true, "UTF-8");
 		    XMLWriter writer = new XMLWriter(
-		            new FileWriter( "C:\\code\\dealers.xml" ),
+		            new FileWriter( "C:\\code\\stands.xml" ),
 		            format
 	        );
 	        writer.write( outDocument );
